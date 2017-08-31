@@ -7,6 +7,7 @@
     "test": "test"
   },
   "scripts": {
+    "start": "nodejs build/app.js"
     "test": "tsc -p test/ && mocha",
     "clean": "rm -f build/* test/*.js test/*.js.map",
     "compile": "tsc -p src/"
@@ -21,6 +22,10 @@
   ],
   "author": "",
   "license": "MIT",
+  "dependencies": {
+    "@types/request": "^2.0.3",
+    "request": "^2.81.0"
+  },
   "devDependencies": {
     "@types/mocha": "^2.2.41",
     "@types/node": "^7.0.18",
