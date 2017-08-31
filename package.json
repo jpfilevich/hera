@@ -7,16 +7,25 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "tsc -p test/ && mocha",
+    "clean": "rm -f build/* test/*.js test/*.js.map",
+    "compile": "tsc -p src/"
   },
   "repository": {
     "type": "git",
     "url": "http://192.168.1.4:3000/juan/hera"
   },
-  "keywords": ["pirate", "vshare.io"],
+  "keywords": [
+    "pirate",
+    "vshare.io"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^3.5.0"
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^7.0.18",
+    "mocha": "^3.5.0",
+    "ts-node": "^3.0.4",
+    "typescript": "^2.3.2"
   }
 }
