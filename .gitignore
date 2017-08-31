@@ -1,0 +1,13 @@
+node_modules/
+coverage
+
+# vs code
+#.vscode
+
+# IntelliJ/WebStorm
+#.idea/
+
+test/*.js
+test/*.js.map
+
+!.gitignore
