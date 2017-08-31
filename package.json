@@ -1,0 +1,22 @@
+{
+  "name": "hera",
+  "version": "1.0.0",
+  "description": "vshare.io download manager",
+  "main": "src/hera.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://192.168.1.4:3000/juan/hera"
+  },
+  "keywords": ["pirate", "vshare.io"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^3.5.0"
+  }
+}
