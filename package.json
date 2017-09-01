@@ -2,14 +2,14 @@
   "name": "hera",
   "version": "1.0.0",
   "description": "vshare.io download manager",
-  "main": "src/hera.js",
+  "main": "dist/app.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "start": "nodejs build/app.js"
+    "start": "nodejs dist/app.js",
     "test": "tsc -p test/ && mocha",
-    "clean": "rm -f build/* test/*.js test/*.js.map",
+    "clean": "rm -f dist/* test/*.js test/*.js.map",
     "compile": "tsc -p src/"
   },
   "repository": {
@@ -29,7 +29,9 @@
   "devDependencies": {
     "@types/mocha": "^2.2.41",
     "@types/node": "^7.0.18",
+    "@types/should": "^11.2.0",
     "mocha": "^3.5.0",
+    "should": "^12.0.0",
     "ts-node": "^3.0.4",
     "typescript": "^2.3.2"
   }
