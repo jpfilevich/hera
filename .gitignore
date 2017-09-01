@@ -7,6 +7,12 @@ coverage
 # IntelliJ/WebStorm
 #.idea/
 
+# build's
+dist/
+
+# compiled's
+test/*.js
+test/*.js.map
 test/*.js
 test/*.js.map
 
