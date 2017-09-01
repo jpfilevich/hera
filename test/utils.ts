@@ -3,25 +3,23 @@ import * as fs from "fs";
 
 /* External modules aka 3rd party */
 import * as mocha from "mocha";
-import * as should from "should";
+import {expect} from 'chai';
 
 /* namespaces aka Internal modules */
 import {html, Utils} from "../dist/utils";
 
 describe("html-type",()=>{
 
-  it("should be no diff from string",()=>{
+  it("should be no diff from the good ol' string",()=>{
     let body: html = "";
     
-    (function () { 
+    expect(() => { 
         body = "some string lolz";
-    }).should
-      .and.not.throw(Error);
+    }).to.not.throw(Error);
 
-    body
-      .should
-      .be.equal("some string lolz")
-      .be.have.lengthOf(16);
+    expect(body)
+      .to.be.equal("some string lolz")
+      .and.be.have.lengthOf(16);
   });
 
 });
@@ -30,24 +28,24 @@ describe("getLink",()=>{
 
   it("should be able to get the link (fs.read) #1",(done) => {
     fs.readFile('test/assets/res.html', 'utf8', (error, body) => {
-      should.not.exist(error);
-      should.exist(body);
+      
+      expect(error).to.not.exist;
+      expect(body).to.exist;
+
       let link: string = "";
 
-      (function () { 
-        link = Utils.getLink(body);
-      }).should
-        .not.throw(/Couldn't find link/)
-        .and.not.throw(Error);
+      expect(() => {
+        link = Utils.getLink(body)
+      }).to.not.throw(Error)
 
-      link
-        .should
-        .be.an.String() // .be.an.Object()
-        .and.not.empty()
-        .and.match(/http:\/\//);
+      // Alternatively, if you need to test multiple properties.
+      // var err = chai.assert.throw(foo);
+      // expect(err).to.have.property('name').with.lengthOf(4);
+      // expect(err).to.have.property('code', 'EBADCODE');
 
-      // user.should.have.property('name', 'tj');
-      // user.should.have.property('pets').with.lengthOf(4);
+      expect(link)
+        .to.be.a("string")
+        .and.match(/http:\/\//)
 
       // console.log("    " + link);
       done();
@@ -58,10 +56,9 @@ describe("getLink",()=>{
     let body: html = `href="http://">Click-here`
       , link: string = "";
 
-    (function () {
+    expect(() => {
       link = Utils.getLink(body);
-    }).should
-      .throw(Error, /Couldn't find link/);
+    }).to.throw(Error);
   });
 
 });
