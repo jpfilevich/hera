@@ -11,7 +11,17 @@ import {html, Utils} from "../dist/utils";
 describe("html-type",()=>{
 
   it("should be no diff from string",()=>{
-    let body: html = "some string lolz";
+    let body: html = "";
+    
+    (function () { 
+        body = "some string lolz";
+    }).should
+      .and.not.throw(Error);
+
+    body
+      .should
+      .be.equal("some string lolz")
+      .be.have.lengthOf(16);
   });
 
 });
@@ -44,7 +54,7 @@ describe("getLink",()=>{
     });
   });
   
-  it("should not be able to get the link - #2",() => {
+  it("should not be able to get the link #2",() => {
     let body: html = `href="http://">Click-here`
       , link: string = "";
 
