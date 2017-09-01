@@ -1,7 +1,7 @@
  # npm = youtu.be/CDQ-WlU8ecs
  # Make; good ol' friend
 
-.PHONY: all build test clean
+.PHONY: all build test clean run
 
 all: build
 
@@ -12,7 +12,7 @@ test:
 	@tsc -p test && ./node_modules/mocha/bin/mocha test
 
 clean-build: 
-	@rm -f build/*
+	@rm -f dist/*
 
 clean-test:
 	@rm -f test/*.js test/*.js.map
@@ -20,3 +20,6 @@ clean-test:
 clean: clean-build clean-test
 
 rebuild: clean build;
+
+run:
+	@nodejs dist/app.js
