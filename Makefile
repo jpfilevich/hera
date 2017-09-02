@@ -12,7 +12,7 @@ test:
 ifeq ($(UNIT),)
 	@tsc -p test && ./node_modules/mocha/bin/mocha test
 else
-	@tsc -p test && ./node_modules/mocha/bin/mocha test --grep $(UNIT)
+	@tsc --sourceMap -m commonjs -t ES2015 --noImplicitAny --strictNullChecks test/$(UNIT).ts && ./node_modules/mocha/bin/mocha test --grep $(UNIT)
 endif
 
 clean-build: 
