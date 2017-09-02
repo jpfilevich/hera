@@ -24,7 +24,8 @@
   "license": "MIT",
   "dependencies": {
     "@types/request": "^2.0.3",
-    "request": "^2.81.0"
+    "request": "^2.81.0",
+    "request-progress": "^3.0.0"
   },
   "devDependencies": {
     "@types/chai": "^4.0.4",
