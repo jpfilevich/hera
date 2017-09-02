@@ -1,5 +1,9 @@
 export interface html extends String {}
 
+export interface ICallback {
+    ( error: Error|null, result?: any ) : void;
+}
+
 export class Utils {
   static getLink(body: html): string {
     let patt: RegExp  = /href\=\"(.+)\"\>Click\shere/gi
