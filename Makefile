@@ -3,6 +3,9 @@
 
 .PHONY: all build test clean run
 
+FLAGS := --sourceMap -m commonjs -t ES2015 --noImplicitAny --strictNullChecks
+MOCHA := ./node_modules/mocha/bin/mocha --no-timeouts
+
 all: build
 
 build:
@@ -10,10 +13,13 @@ build:
 
 test:
 ifeq ($(UNIT),)
-	@tsc -p test && ./node_modules/mocha/bin/mocha test
+	@tsc -p test && $(MOCHA) test
 else
-	@tsc --sourceMap -m commonjs -t ES2015 --noImplicitAny --strictNullChecks test/$(UNIT).ts && ./node_modules/mocha/bin/mocha test --grep $(UNIT)
+	@tsc $(FLAGS) test/$(UNIT).test.ts && $(MOCHA) test --grep $(UNIT)
 endif
+	
+tmp:
+	@tsc $(FLAGS) test/_tmp.ts && nodejs test/_tmp.js
 
 clean-build: 
 	@rm -f dist/*
