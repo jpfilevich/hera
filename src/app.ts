@@ -6,69 +6,38 @@ import {html, ICallback, Utils} from "./utils";
 
 export default class App {
 
-  private r: Request.CoreOptions;
-
-  constructor() {
-    this.r = Request.defaults({
-      jar: true,
-      gzip: true,
-      headers:
-      {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.8,en;q=0.6',
-        'Connection': 'keep-alive',
-        'Host': 'vshare.io',
-        'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36',
-      }
-    });
-  }
-
-  doAjax(uri: string, ugly: any) {
-    return new Promise(function(resolve, reject) {
-      Request(uri, ugly, (err, res, body) => {
-        if (err || res.statusCode != 200) {
-          return reject(err);
-        }
-        console.log("done una")
-        resolve(body);
-      });
-    });
+  private getContent(url: string) {
+    // return new pending promise
+    return new Promise((resolve, reject) => {
+        // select http or https module, depending on reqested url
+        const lib = url.startsWith('https') ? require('https') : require('http');
+        const request = lib.get(url, (response: any) => {
+          // handle http errors
+          if (response.statusCode < 200 || response.statusCode > 299) {
+             reject(new Error('Failed to load page, status code: ' + response.statusCode));
+           }
+          // temporary data holder
+          const body:any = [];
+          // on every content chunk, push it to the data array
+          response.on('data', (chunk:any) => body.push(chunk));
+          // we are done, resolve promise with those joined chunks
+          response.on('end', () => resolve(body.join('')));
+        });
+        // handle connection errors of the request
+        request.on('error', (err:any) => reject(err))
+      })
   }
   
-  get(urls: string | Array<string>, callback: ICallback): void {    
-    //let downloadLinks: Array<string>;
+  public get(urls: string | Array<string>, callback: ICallback): void {
     if (typeof urls == "string"){
       urls = [urls];
     }
     let promises: Array<{}> = new Array();
     for (let i = 0; i < urls.length; ++i) {
-      promises.push(this.doAjax(urls[i], this.r));
+      promises.push(this.getContent(urls[i]));
     }
-    Promise.all(promises).then((body:any) => {
-      console.log("YEYEYE")
-    }, (err) => {
-      console.log(err)
-    });
-
-    // url.forEach((elem: string) => {
-    //   Request(elem, this.r, (err, res, body) => {
-    //     if (err || res.statusCode != 200) {
-    //       callback(err)
-    //     }
-    //     let link = Utils.getLink(body);
-    //     downloadLinks.push(link);
-    //   });
-
-    //   // hay que promisify esto y la concha de tu madre all boys
-    //   callback(null, downloadLinks);
-    // });
+    Promise.all(promises)
+      .then((html) => callback(null, html))
+      .catch((err) => callback(err));
   }
 }
-
-let hera: App = new App();
-
-//sexy
-// ( value >= 0.5 )
-//   ? callback( null, value )
-//   : callback( new Error( "Oops, random number too low." ) )
