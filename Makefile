@@ -9,7 +9,11 @@ build:
 	@tsc -p src
 
 test:
+ifeq ($(UNIT),)
 	@tsc -p test && ./node_modules/mocha/bin/mocha test
+else
+	@tsc -p test && ./node_modules/mocha/bin/mocha test --grep $(UNIT)
+endif
 
 clean-build: 
 	@rm -f dist/*
