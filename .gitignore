@@ -1,19 +1,21 @@
-node_modules/
-coverage
+# sublime
+.sublime-project*
 
 # vs code
-#.vscode
+.vscode
 
 # IntelliJ/WebStorm
-#.idea/
+.idea/
 
-# build's
+# npm
+node_modules/
+
+# build
 dist/
 
-# compiled's
-test/*.js
-test/*.js.map
-test/*.js
-test/*.js.map
+# test
+test/*.test.js
+test/*.test.js.map
+test/out/
 
 !.gitignore
