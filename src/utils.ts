@@ -31,11 +31,11 @@ export class Utils {
   }
 
   /**
-   * milliseconds to minutes:seconds
+   * seconds (3 decimals) to minutes:seconds
    */
   static msTom(ms:number):string {
-    let m:number = Math.floor(ms / 60000)
-      , s:string = ((ms % 60000) / 1000).toFixed(0);
+    let m:number = Math.floor(ms / 60)
+      , s:string = (ms % 60).toFixed(0);
     return `${m}m:${s}s`;
   }
 }

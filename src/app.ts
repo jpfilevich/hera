@@ -15,9 +15,16 @@ export default class App {
           if (response.statusCode < 200 || response.statusCode > 299) {
              reject(new Error('Failed to load page, status code: ' + response.statusCode));
            }
-          const body:any = [];
-          response.on('data', (chunk:any) => body.push(chunk));
-          response.on('end', () => resolve(body.join('')));
+          const stream:any = [];
+          response.on('data', (chunk:any) => stream.push(chunk));
+          response.on('end', () => {
+            let document = stream.join('');
+            let res = {
+              link: Utils.getLink(document), 
+              fileName: Utils.getFileName(document)
+            };
+            resolve(res)
+          });
         });
         req.on('error', (err:any) => reject(err))
       })
@@ -35,7 +42,7 @@ export default class App {
       promises.push(App.getContent(urls[i]));
     }
     Promise.all(promises)
-      .then((htmls) => callback(null, htmls.map(Utils.getLink)))
+      .then((htmls) => callback(null, htmls))
       .catch((err) => callback(err));
   }
 
@@ -43,16 +50,16 @@ export default class App {
     progress(request(url))
       .on('progress', function (state:any) {
         let output: string =
-            `${filename}: downloaded ${state.percent*100}% - \
-            at ${Math.round(state.speed/100*60)}MiB/s -\
-            ETA ${Utils.msTom(state.time.remaining)}`
+            `${filename.substr(0,14)} | `
+            +`${(state.percent*100).toFixed(1)}% | `
+            +`ETA ${Utils.msTom(state.time.remaining)}`;
         console.log(output);
     }).on('error', function (err:any) {
         console.log(err)
     }).on('end', function () {
         console.log("easy peasy lemon squeezy")
         callback();
-    }).pipe(fs.createWriteStream('test/out/' + filename));
+    }).pipe(fs.createWriteStream("test/out/" + filename));
   }
 
   static download(links: string | Array<string>): void {
@@ -61,7 +68,7 @@ export default class App {
     }
     // first, le' me get the wgetable url of EVERY vshare link
     App.get(links, (err: Error, res: any) => {
-      if (err){
+      if (err) {
         throw new Error("Couldn't fetch some of the links");
       }
       // synchronize sequence of async wget's
@@ -69,10 +76,11 @@ export default class App {
       // smells like déclassé code :(
       (function next(i:number){
         if (i < res.length) {
-          App.wget(res[i], `download-${Math.random().toString().substr(10,5)}`, ()=>{next(++i)});
+          let fileName = res[i].fileName + res[i].link.substr(-4);
+          App.wget(res[i].link, fileName, ()=>{next(++i)});
         }
       })(0);
-
     });    
   }
+
 }
