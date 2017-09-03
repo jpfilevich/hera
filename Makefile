@@ -15,11 +15,11 @@ test:
 ifeq ($(UNIT),)
 	@tsc -p test && $(MOCHA) test
 else
-	@tsc $(FLAGS) test/$(UNIT).test.ts && $(MOCHA) test --grep $(UNIT)
+	@tsc $(FLAGS) test/$(UNIT).test.ts && $(MOCHA) test #--grep $(UNIT)
 endif
 	
 tmp:
-	@tsc $(FLAGS) test/_tmp.ts && nodejs test/_tmp.js
+	@rm -f test/out/download* && tsc $(FLAGS) test/_tmp.ts && nodejs test/_tmp.js
 
 clean-build: 
 	@rm -f dist/*

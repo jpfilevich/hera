@@ -57,8 +57,38 @@ describe("getLink",()=>{
       , link: string = "";
 
     expect(() => {
-      link = Utils.getLink(body);
+      link = Utils.getLink(<string>body);
     }).to.throw(Error);
+  });
+
+});
+
+describe.only("#getFileName",()=>{
+
+  it("should be able to get the name (fs.read) #1",(done) => {
+    fs.readFile('test/assets/res.html', 'utf8', (error, body) => {
+      
+      expect(error).to.not.exist;
+      expect(body).to.exist;
+
+      let filename: string = "";
+
+      expect(() => {
+        filename = Utils.getFileName(body)
+      }).to.not.throw(Error)
+
+      // Alternatively, if you need to test multiple properties.
+      // var err = chai.assert.throw(foo);
+      // expect(err).to.have.property('name').with.lengthOf(4);
+      // expect(err).to.have.property('code', 'EBADCODE');
+
+      expect(filename)
+        .to.be.a("string")
+        //.and.match(/http:\/\//)
+
+      //console.log(filename);
+      done();
+    });
   });
 
 });
