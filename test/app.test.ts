@@ -22,7 +22,8 @@ describe("app",()=>{
     })
   });
 
-  it.only("#download",(done)=>{
+  //it.only("#download",(done)=>{
+  it("#download",(done)=>{
     hera.download("https://az412801.vo.msecnd.net/vhd/VMBuild_20141027/VirtualBox/IE11/Windows/IE11.Win8.1.For.Windows.VirtualBox.zip",(err,res)=>{
       done()
     });
