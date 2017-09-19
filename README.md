@@ -2,7 +2,7 @@ vshare.io download manager
 
 e.g.:
 
-```
+```typescript
 import Hera from "../dist/app";
 
 let urls: Array<string> = [
