@@ -71,9 +71,10 @@ export default class App {
       if (err) {
         throw new Error("Couldn't fetch some of the links");
       }
-      // synchronize sequence of async wget's
+      // synchronize sequence of async wgets (recursive behaviour)
       // one download at a time. The internet bandwidth dawg!!
-      // smells like déclassé code :(
+      // smells like déclassé :(
+      // but it works tho!! :P
       (function next(i:number){
         if (i < res.length) {
           let fileName = res[i].fileName + res[i].link.substr(-4);
