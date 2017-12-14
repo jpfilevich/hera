@@ -31,7 +31,7 @@ export default class App {
   }
   
   /**
-   * returns the "wget-able" files's url of a given vshare link
+   * returns the "wget-able" files' of a given vshare url(s)
    */
   static get(urls: string | Array<string>, callback: ICallback): any {
     if (typeof urls == "string"){
